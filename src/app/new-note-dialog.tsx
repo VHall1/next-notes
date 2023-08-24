@@ -27,9 +27,9 @@ export const NewNoteDialog = () => {
       </DialogTrigger>
 
       <DialogContent style={{ maxWidth: 450 }}>
-        <DialogTitle>Edit profile</DialogTitle>
+        <DialogTitle>Create note</DialogTitle>
         <DialogDescription size="2" mb="4">
-          Make changes to your profile.
+          Create a new note.
         </DialogDescription>
 
         <form
