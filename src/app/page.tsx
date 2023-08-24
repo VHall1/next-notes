@@ -1,4 +1,3 @@
-import { prisma } from "@/util/prisma";
 import {
   Box,
   Card,
@@ -9,10 +8,7 @@ import {
   Text,
 } from "@radix-ui/themes";
 import { NewNoteDialog } from "./new-note-dialog";
-
-function getNotes() {
-  return prisma.note.findMany({ take: 10 });
-}
+import { getNotes } from "@/actions/notes";
 
 export default async function Home() {
   const notes = await getNotes();
