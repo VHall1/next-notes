@@ -1,3 +1,4 @@
+import { prisma } from "@/util/prisma";
 import {
   Button,
   DialogClose,
@@ -10,12 +11,15 @@ import {
   Text,
   TextFieldInput,
 } from "@radix-ui/themes";
+import { z } from "zod";
+import { zfd } from "zod-form-data";
 
 export const NewNoteDialog = () => {
   const handleSubmit = async (data: FormData) => {
     "use server";
 
-    console.log(data);
+    const parsedData = newNoteSchema.parse(data);
+    await prisma.note.create({ data: parsedData });
   };
 
   return (
@@ -34,15 +38,15 @@ export const NewNoteDialog = () => {
           <Flex direction="column" gap="3">
             <label>
               <Text as="div" size="2" mb="1" weight="bold">
-                Name
+                Title
               </Text>
-              <TextFieldInput placeholder="Enter your full name" />
+              <TextFieldInput name="title" />
             </label>
             <label>
               <Text as="div" size="2" mb="1" weight="bold">
-                Email
+                Content
               </Text>
-              <TextFieldInput placeholder="Enter your email" />
+              <TextFieldInput name="content" />
             </label>
           </Flex>
 
@@ -61,3 +65,8 @@ export const NewNoteDialog = () => {
     </DialogRoot>
   );
 };
+
+const newNoteSchema = zfd.formData({
+  title: zfd.text(z.string()),
+  content: zfd.text(z.string()),
+});
