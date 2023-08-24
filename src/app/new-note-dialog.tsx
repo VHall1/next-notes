@@ -11,6 +11,7 @@ import {
   Text,
   TextFieldInput,
 } from "@radix-ui/themes";
+import { revalidateTag } from "next/cache";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
 
@@ -20,6 +21,8 @@ export const NewNoteDialog = () => {
 
     const parsedData = newNoteSchema.parse(data);
     await prisma.note.create({ data: parsedData });
+
+    revalidateTag("getNotes");
   };
 
   return (
@@ -40,13 +43,13 @@ export const NewNoteDialog = () => {
               <Text as="div" size="2" mb="1" weight="bold">
                 Title
               </Text>
-              <TextFieldInput name="title" />
+              <TextFieldInput name="title" required />
             </label>
             <label>
               <Text as="div" size="2" mb="1" weight="bold">
                 Content
               </Text>
-              <TextFieldInput name="content" />
+              <TextFieldInput name="content" required />
             </label>
           </Flex>
 
@@ -56,9 +59,8 @@ export const NewNoteDialog = () => {
                 Cancel
               </Button>
             </DialogClose>
-            <DialogClose>
-              <Button type="submit">Save</Button>
-            </DialogClose>
+
+            <Button type="submit">Save</Button>
           </Flex>
         </form>
       </DialogContent>
