@@ -1,7 +1,7 @@
 import { prisma } from "@/util/prisma";
 
 function getNotes() {
-  return prisma.note.findMany();
+  return prisma.note.findMany({ take: 10 });
 }
 
 export default async function Home() {
