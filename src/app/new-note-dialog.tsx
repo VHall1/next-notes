@@ -12,6 +12,7 @@ import {
   Flex,
   Text,
   TextFieldInput,
+  TextArea,
 } from "@radix-ui/themes";
 import { useState } from "react";
 import { experimental_useFormStatus as useFormStatus } from "react-dom";
@@ -53,7 +54,7 @@ export const NewNoteDialog = () => {
               <Text as="div" size="2" mb="1" weight="bold">
                 Content
               </Text>
-              <TextFieldInput name="content" required />
+              <TextArea name="content" required />
             </label>
           </Flex>
 
