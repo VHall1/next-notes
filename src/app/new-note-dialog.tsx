@@ -14,6 +14,7 @@ import {
   TextFieldInput,
 } from "@radix-ui/themes";
 import { useState } from "react";
+import { experimental_useFormStatus as useFormStatus } from "react-dom";
 
 export const NewNoteDialog = () => {
   const [open, setOpen] = useState(false);
@@ -52,7 +53,7 @@ export const NewNoteDialog = () => {
               <Text as="div" size="2" mb="1" weight="bold">
                 Content
               </Text>
-              <TextFieldInput name="content"  />
+              <TextFieldInput name="content" required />
             </label>
           </Flex>
 
@@ -63,10 +64,20 @@ export const NewNoteDialog = () => {
               </Button>
             </DialogClose>
 
-            <Button type="submit">Save</Button>
+            <SubmitButton />
           </Flex>
         </form>
       </DialogContent>
     </DialogRoot>
+  );
+};
+
+const SubmitButton = () => {
+  const { pending } = useFormStatus();
+
+  return (
+    <Button type="submit" disabled={pending}>
+      Save
+    </Button>
   );
 };
