@@ -32,7 +32,12 @@ export const NewNoteDialog = () => {
 
         <form
           action={async (data) => {
-            await createNote(data);
+            try {
+              await createNote(data);
+            } catch (error) {
+              console.error(error);
+            }
+
             setOpen(false);
           }}
         >
@@ -47,7 +52,7 @@ export const NewNoteDialog = () => {
               <Text as="div" size="2" mb="1" weight="bold">
                 Content
               </Text>
-              <TextFieldInput name="content" required />
+              <TextFieldInput name="content"  />
             </label>
           </Flex>
 
