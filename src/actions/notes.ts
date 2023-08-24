@@ -6,7 +6,10 @@ import { z } from "zod";
 import { zfd } from "zod-form-data";
 
 function getNotes() {
-  return prisma.note.findMany({ take: 10 });
+  return prisma.note.findMany({
+    take: 10,
+    orderBy: { createdAt: "desc" },
+  });
 }
 
 const newNoteSchema = zfd.formData({
