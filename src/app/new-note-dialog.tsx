@@ -1,4 +1,6 @@
-import { prisma } from "@/util/prisma";
+"use client";
+
+import { createNote } from "@/actions/notes";
 import {
   Button,
   DialogClose,
@@ -11,22 +13,13 @@ import {
   Text,
   TextFieldInput,
 } from "@radix-ui/themes";
-import { revalidateTag } from "next/cache";
-import { z } from "zod";
-import { zfd } from "zod-form-data";
+import { useState } from "react";
 
 export const NewNoteDialog = () => {
-  const handleSubmit = async (data: FormData) => {
-    "use server";
-
-    const parsedData = newNoteSchema.parse(data);
-    await prisma.note.create({ data: parsedData });
-
-    revalidateTag("getNotes");
-  };
+  const [open, setOpen] = useState(false);
 
   return (
-    <DialogRoot>
+    <DialogRoot open={open} onOpenChange={setOpen}>
       <DialogTrigger>
         <Button variant="soft">Create note</Button>
       </DialogTrigger>
@@ -37,7 +30,12 @@ export const NewNoteDialog = () => {
           Make changes to your profile.
         </DialogDescription>
 
-        <form action={handleSubmit}>
+        <form
+          action={async (data) => {
+            await createNote(data);
+            setOpen(false);
+          }}
+        >
           <Flex direction="column" gap="3">
             <label>
               <Text as="div" size="2" mb="1" weight="bold">
@@ -67,8 +65,3 @@ export const NewNoteDialog = () => {
     </DialogRoot>
   );
 };
-
-const newNoteSchema = zfd.formData({
-  title: zfd.text(z.string()),
-  content: zfd.text(z.string()),
-});
