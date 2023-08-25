@@ -1,3 +1,5 @@
+import { deleteNote, getNotes } from "@/actions/notes";
+import { TrashIcon } from "@radix-ui/react-icons";
 import {
   Box,
   Card,
@@ -5,10 +7,11 @@ import {
   Flex,
   Grid,
   Heading,
+  IconButton,
   Text,
 } from "@radix-ui/themes";
 import { NewNoteDialog } from "./new-note-dialog";
-import { getNotes } from "@/actions/notes";
+import { DeleteNoteButton } from "./delete-note-button";
 
 export default async function Home() {
   const notes = await getNotes();
@@ -27,6 +30,7 @@ export default async function Home() {
         <Grid columns="3" gap="3" width="auto" mt="4">
           {notes.map((note) => (
             <Card key={`note-card-${note.id}`}>
+              <DeleteNoteButton noteId={note.id} />
               <Flex gap="3" align="center">
                 <Box>
                   <Text as="div" size="2" weight="bold">
