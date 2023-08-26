@@ -2,20 +2,25 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 async function main() {
+  const { id } = await prisma.user.create();
+
   await prisma.note.create({
     data: {
+      userId: id,
       title: "Hello",
       content: "World",
     },
   });
   await prisma.note.create({
     data: {
+      userId: id,
       title: "Ola",
       content: "Mundo",
     },
   });
   await prisma.note.create({
     data: {
+      userId: id,
       title: "Hallo",
       content: "Welt",
     },
