@@ -14,10 +14,13 @@ import {
   TextFieldInput,
   TextArea,
 } from "@radix-ui/themes";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { experimental_useFormStatus as useFormStatus } from "react-dom";
 
 export const NewNoteDialog = () => {
+  const router = useRouter();
+
   const [open, setOpen] = useState(false);
 
   return (
@@ -41,6 +44,7 @@ export const NewNoteDialog = () => {
             }
 
             setOpen(false);
+            router.refresh();
           }}
         >
           <Flex direction="column" gap="3">
