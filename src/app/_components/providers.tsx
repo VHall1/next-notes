@@ -1,11 +1,12 @@
 "use client";
 
-import { getQueryClient } from "@/util/react-query";
 import { Theme } from "@radix-ui/themes";
-import { QueryClientProvider } from "@tanstack/react-query";
-import { PropsWithChildren } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { PropsWithChildren, useState } from "react";
 
 export const Providers: React.FC<PropsWithChildren> = ({ children }) => {
+  const [queryClient] = useState(() => new QueryClient());
+
   return (
     <Theme
       appearance="dark"
@@ -15,9 +16,7 @@ export const Providers: React.FC<PropsWithChildren> = ({ children }) => {
       scaling="100%"
       radius="large"
     >
-      <QueryClientProvider client={getQueryClient()}>
-        {children}
-      </QueryClientProvider>
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
     </Theme>
   );
 };
